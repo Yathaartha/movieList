@@ -12,7 +12,7 @@ const modalAdd = addMovieModal.querySelector(".btn--success");
 const userInputs = addMovieModal.querySelectorAll("input");
 // const userInputs = addMovieModal.getElementsByTagName("input");
 const entryTextSection = document.getElementById("entry-text");
-
+const listRoot = document.getElementById("movie-list");
 
 const movies = [];
 
@@ -24,19 +24,33 @@ function updateUI(){
   }
 }
 
-function renderNewMovieElement(title, imageUrl, rating){
+function deleteMovie(movieId){
+  let movieIndex = 0;
+  for (const movie of movies){
+    if (movie.id --- movieId){
+      break;
+    }
+    movieIndex++;
+  }
+  movies.splice(movieIndex, 1);
+  listRoot.children[movieIndex].remove();
+  // listRoot.removeChild(listRoot.children[movieIndex]);
+}
+
+function renderNewMovieElement(id, title, imageUrl, rating){
   const newMovieElement = document.createElement("li");
   newMovieElement.className = "movie-element";
   newMovieElement.innerHTML = `
   <div class="movie-element__image">
     <img src = "${imageUrl}" alt="${title}">
   </div>
-  <div class="movie=element__info">
+  <div class="movie-element__info">
     <h2>${title}</h2>
     <h2>${rating}/5 stars</h2>
   </div>
   `;
-  const listRoot = document.getElementById("movie-list");
+  newMovieElement.addEventListener("click", deleteMovie.bind(null, id));
+
   listRoot.append(newMovieElement);
 }
 
@@ -69,12 +83,13 @@ function addMovie(){
   const titleValue = userInputs[0].value;
   const imgUrlValue = userInputs[1].value;
   const ratingValue = userInputs[2].value;
-
+  
   if (titleValue.trim() === "" || imgUrlValue.trim() === "" || ratingValue.trim() === "" || parseInt(ratingValue) < 1 || parseInt(ratingValue) > 5){
     alert("Please Enter Valid Value");
     return;
   }
   const newMovie = {
+    id: Math.random().toString(),
     title: titleValue,
     image: imgUrlValue,
     rating: ratingValue
@@ -83,7 +98,7 @@ function addMovie(){
   console.log(movies);
   toggleModal();
   clearModal();
-  renderNewMovieElement(neMovie.title, newMovie.image, newMovie.rating);
+  renderNewMovieElement(newMovie.id, newMovie.title, newMovie.image, newMovie.rating);
   updateUI();
 }
 
