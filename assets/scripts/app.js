@@ -11,7 +11,34 @@ const modalAdd = addMovieModal.querySelector(".btn--success");
 // const modalAdd = modalCancel.nextElementSibling;
 const userInputs = addMovieModal.querySelectorAll("input");
 // const userInputs = addMovieModal.getElementsByTagName("input");
+const entryTextSection = document.getElementById("entry-text");
+
+
 const movies = [];
+
+function updateUI(){
+  if (movies.length === 0){
+    entryTextSection.style.display = 'block';
+  } else {
+    entryTextSection.style.display = 'none';
+  }
+}
+
+function renderNewMovieElement(title, imageUrl, rating){
+  const newMovieElement = document.createElement("li");
+  newMovieElement.className = "movie-element";
+  newMovieElement.innerHTML = `
+  <div class="movie-element__image">
+    <img src = "${imageUrl}" alt="${title}">
+  </div>
+  <div class="movie=element__info">
+    <h2>${title}</h2>
+    <h2>${rating}/5 stars</h2>
+  </div>
+  `;
+  const listRoot = document.getElementById("movie-list");
+  listRoot.append(newMovieElement);
+}
 
 function toggleModal(){
   addMovieModal.classList.toggle('visible');
@@ -35,7 +62,7 @@ function clearModal(){
   for (const usrInput of userInputs){
     usrInput.value = "";
   }
-  clearModal();
+  // clearModal();
 }
 
 function addMovie(){
@@ -56,6 +83,8 @@ function addMovie(){
   console.log(movies);
   toggleModal();
   clearModal();
+  renderNewMovieElement(neMovie.title, newMovie.image, newMovie.rating);
+  updateUI();
 }
 
 startAddMovieBtn.addEventListener('click', toggleModal);
