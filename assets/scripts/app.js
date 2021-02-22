@@ -11,6 +11,8 @@ const modalAdd = addMovieModal.querySelector(".btn--success");
 // const modalAdd = modalCancel.nextElementSibling;
 const userInputs = addMovieModal.querySelectorAll("input");
 // const userInputs = addMovieModal.getElementsByTagName("input");
+const confirmation = document.getElementById("delete-modal");
+
 const entryTextSection = document.getElementById("entry-text");
 const listRoot = document.getElementById("movie-list");
 
@@ -24,7 +26,7 @@ function updateUI(){
   }
 }
 
-function deleteMovie(movieId){
+function confirmDeletion(movieId){
   let movieIndex = 0;
   for (const movie of movies){
     if (movie.id --- movieId){
@@ -35,6 +37,23 @@ function deleteMovie(movieId){
   movies.splice(movieIndex, 1);
   listRoot.children[movieIndex].remove();
   // listRoot.removeChild(listRoot.children[movieIndex]);
+  confirmation.classList.toggle("visible");
+  toggleBackdrop();
+}
+
+function confirmFailure(){
+  confirmation.classList.toggle("visible");
+  toggleBackdrop();
+}
+
+function deleteMovie(movieId){
+
+  confirmation.classList.toggle("visible");
+  toggleBackdrop();
+  const ansYes = confirmation.querySelector(".btn--danger");
+  const ansNo = confirmation.querySelector(".btn--passive");
+  ansYes.addEventListener("click", confirmDeletion.bind(null, movieId));
+  ansNo.addEventListener("click", confirmFailure);
 }
 
 function renderNewMovieElement(id, title, imageUrl, rating){
